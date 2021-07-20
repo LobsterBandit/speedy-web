@@ -7,18 +7,27 @@ const useStyles = makeStyles((theme) => ({
   message: {
     marginTop: theme.spacing(2),
   },
+  image: {
+    alignSelf: "center",
+  },
 }));
 
 export function Home() {
   const classes = useStyles();
 
   return (
-    <Page contentProps={{ alignItems: "center", padding: 2 }}>
-      <Typography component="h1" variant="h2">
+    <Page>
+      <Typography align="center" component="h1" variant="h2">
         Welcome to Speedy
       </Typography>
-      <img height={200} width={200} src={speedy} alt="speedy" />
-      <Typography className={classes.message} variant="body1">
+      <img
+        className={classes.image}
+        height={200}
+        width={200}
+        src={speedy}
+        alt="speedy"
+      />
+      <Typography align="center" className={classes.message} variant="body1">
         Import data from the{" "}
         <a
           target="_blank"
