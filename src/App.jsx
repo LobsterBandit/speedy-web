@@ -1,23 +1,16 @@
-import React, { useState } from "react";
-import speedy from "./speedy.svg";
-import "./App.css";
+import { CssBaseline } from "@material-ui/core";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Home } from "./pages";
 
-function App() {
-  const [count, setCount] = useState(0);
-
+export function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={speedy} className="App-logo" alt="speedy" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-      </header>
-    </div>
+    <Router>
+      <CssBaseline />
+      <Switch>
+        <Route path="/">
+          <Home />
+        </Route>
+      </Switch>
+    </Router>
   );
 }
-
-export default App;
