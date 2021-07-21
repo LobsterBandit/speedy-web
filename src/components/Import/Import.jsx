@@ -1,5 +1,4 @@
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogTitle,
@@ -48,7 +47,6 @@ export function Import({ openOnMount = false, open, handleClose } = {}) {
           onChange={debouncedHandleChange}
           placeholder="Copy data from the Speedy AddOn and paste here"
           rows={15}
-          // value={value}
           variant="outlined"
         />
       </DialogContent>
