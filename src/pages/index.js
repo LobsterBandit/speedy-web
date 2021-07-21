@@ -1,1 +1,3 @@
-export * from "./home";
+export * from "./CharacterSelect";
+export * from "./Dashboard";
+export * from "./Welcome";
