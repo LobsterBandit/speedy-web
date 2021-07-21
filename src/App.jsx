@@ -1,23 +1,39 @@
-import React, { useState } from "react";
-import speedy from "./speedy.svg";
-import "./App.css";
+import { CssBaseline } from "@material-ui/core";
+import { yellow } from "@material-ui/core/colors";
+import { createTheme, ThemeProvider } from "@material-ui/core/styles";
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { ImportProvider } from "./components";
+import { CharacterSelect, Dashboard, Welcome } from "./pages";
 
-function App() {
-  const [count, setCount] = useState(0);
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: "#82bf4c",
+    },
+    secondary: yellow,
+    type: "dark",
+  },
+});
 
+export function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={speedy} className="App-logo" alt="speedy" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <ImportProvider>
+        <Router>
+          <CssBaseline />
+          <Switch>
+            <Route exact path="/dashboard">
+              <Dashboard />
+            </Route>
+            <Route exact path="/select">
+              <CharacterSelect />
+            </Route>
+            <Route path="/">
+              <Welcome />
+            </Route>
+          </Switch>
+        </Router>
+      </ImportProvider>
+    </ThemeProvider>
   );
 }
-
-export default App;
