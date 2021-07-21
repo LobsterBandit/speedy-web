@@ -1,6 +1,6 @@
 import { Box, Button, Grid, Link, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { Header, Page, useImport, useImportContext } from "../components";
+import { Header, Page, useImportContext } from "../components";
 import speedy from "../speedy.svg";
 
 const useStyles = makeStyles((theme) => ({
@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 
 export function Welcome() {
   const classes = useStyles();
-  // const { handleOpen, Import, importProps } = useImport();
   const { handleOpen } = useImportContext();
 
   return (
@@ -28,8 +27,9 @@ export function Welcome() {
           contentLeft={
             <Button
               className={classes.import}
-              color="inherit"
+              color="secondary"
               onClick={handleOpen}
+              variant="contained"
             >
               <Typography>Import</Typography>
             </Button>
@@ -37,7 +37,6 @@ export function Welcome() {
         />
       }
     >
-      {/* <Import {...importProps} /> */}
       <Typography align="center" component="h1" variant="h2" gutterBottom>
         Welcome to Speedy
       </Typography>
@@ -58,7 +57,6 @@ export function Welcome() {
           className={classes.import}
           color="primary"
           onClick={handleOpen}
-          // size="large"
           variant="outlined"
         >
           <Typography>Import</Typography>

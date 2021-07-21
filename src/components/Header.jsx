@@ -23,11 +23,9 @@ export function Header({ brand, contentLeft, contentRight }) {
           flexGrow={1}
         >
           {contentLeft}
-          {/* <Typography>Import</Typography> */}
         </Box>
         <Box alignItems="center" display="flex" flexDirection="row">
           {contentRight}
-          {/* <Typography>CharacterName</Typography> */}
         </Box>
       </Toolbar>
     </AppBar>
