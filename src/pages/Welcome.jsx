@@ -1,4 +1,4 @@
-import { Box, Button, Grid, Link, Typography } from "@material-ui/core";
+import { Box, Button, Link, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Header, Page, useImportContext } from "../components";
 import speedy from "../speedy.svg";
