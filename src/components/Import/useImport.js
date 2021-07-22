@@ -1,22 +1,22 @@
-import { useCallback, useState } from "react";
-import { Import } from "./Import";
+import { useCallback, useState } from "react"
+import { Import } from "./Import"
 
 export function useImport({ openOnMount = false } = {}) {
-  const [open, setOpen] = useState(openOnMount);
+  const [open, setOpen] = useState(openOnMount)
 
   const handleClose = useCallback(() => {
-    setOpen(false);
-  }, []);
+    setOpen(false)
+  }, [])
 
   const handleOpen = useCallback(() => {
-    setOpen(true);
-  }, []);
+    setOpen(true)
+  }, [])
 
   const importProps = {
     handleClose,
     handleOpen,
     open,
-  };
+  }
 
   return {
     handleClose,
@@ -25,5 +25,5 @@ export function useImport({ openOnMount = false } = {}) {
     openOnMount,
     Import,
     importProps,
-  };
+  }
 }

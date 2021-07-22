@@ -3,30 +3,33 @@ import {
   DialogContent,
   DialogTitle,
   TextField,
-} from "@material-ui/core";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { debounce, parseAddonExportString } from "../../utils";
+} from "@material-ui/core"
+import { useCallback, useMemo } from "react"
+import { debounce, parseAddonExportString } from "../../utils"
 
 export function Import({ open, handleClose } = {}) {
   const handleChange = useCallback(
     (e) => {
-      const importString = e.target.value;
+      const importString = e.target.value
       if (!importString) {
-        return;
+        return
       }
 
       parseAddonExportString(importString)
         .then((data) => {
-          console.log("Parsed Data", data);
+          console.log("Parsed Data", data)
           // fire off success notification? and close import dialog
-          handleClose();
+          handleClose()
         })
-        .catch((error) => console.error(error));
+        .catch((error) => console.error(error))
     },
     [handleClose]
-  );
+  )
 
-  const debouncedHandleChange = useMemo(() => debounce(handleChange, 300), []);
+  const debouncedHandleChange = useMemo(
+    () => debounce(handleChange, 300),
+    [handleChange]
+  )
 
   return (
     <Dialog
@@ -49,5 +52,5 @@ export function Import({ open, handleClose } = {}) {
         />
       </DialogContent>
     </Dialog>
-  );
+  )
 }

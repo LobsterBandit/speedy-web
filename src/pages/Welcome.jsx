@@ -1,7 +1,7 @@
-import { Box, Button, Link, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
-import { Header, Page, useImportContext } from "../components";
-import speedy from "../speedy.svg";
+import { Button, Link, Typography } from "@material-ui/core"
+import { makeStyles } from "@material-ui/core/styles"
+import { Header, Page, useImportContext } from "../components"
+import speedy from "../speedy.svg"
 
 const useStyles = makeStyles((theme) => ({
   import: {
@@ -13,11 +13,11 @@ const useStyles = makeStyles((theme) => ({
   image: {
     alignSelf: "center",
   },
-}));
+}))
 
 export function Welcome() {
-  const classes = useStyles();
-  const { handleOpen } = useImportContext();
+  const classes = useStyles()
+  const { handleOpen } = useImportContext()
 
   return (
     <Page
@@ -73,5 +73,5 @@ export function Welcome() {
         {" to get started!"}
       </Typography>
     </Page>
-  );
+  )
 }
