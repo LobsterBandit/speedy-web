@@ -4,38 +4,36 @@ import {
   DialogTitle,
   TextField,
 } from "@material-ui/core";
-import { useEffect, useMemo, useState } from "react";
-import { debounce } from "../../utils";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { debounce, parseAddonExportString } from "../../utils";
 
-export function Import({ openOnMount = false, open, handleClose } = {}) {
-  const [value, setValue] = useState("");
+export function Import({ open, handleClose } = {}) {
+  const handleChange = useCallback(
+    (e) => {
+      const importString = e.target.value;
+      if (!importString) {
+        return;
+      }
 
-  const onClose = () => {
-    setValue("");
-    handleClose();
-  };
-
-  const handleChange = (e) => {
-    setValue(e.target.value);
-  };
-
-  const debouncedHandleChange = useMemo(
-    () => debounce(handleChange, 300, true),
-    []
+      parseAddonExportString(importString)
+        .then((data) => {
+          console.log("Parsed Data", data);
+          // fire off success notification? and close import dialog
+          handleClose();
+        })
+        .catch((error) => console.error(error));
+    },
+    [handleClose]
   );
 
-  useEffect(() => {
-    if (value) {
-      console.log("Parsing import", value);
-    }
-  }, [value]);
+  const debouncedHandleChange = useMemo(() => debounce(handleChange, 300), []);
 
   return (
     <Dialog
       fullWidth
       maxWidth="sm"
       open={open}
-      onClose={onClose}
+      onClose={handleClose}
       aria-labelledby="import-dialog-title"
     >
       <DialogTitle id="import-dialog-title">Import Character Data</DialogTitle>

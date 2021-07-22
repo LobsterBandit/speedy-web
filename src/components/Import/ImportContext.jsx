@@ -14,7 +14,6 @@ const initialValue = {
     handleClose: noop,
     handleOpen: noop,
     open: false,
-    openOnMount: false,
   },
 };
 

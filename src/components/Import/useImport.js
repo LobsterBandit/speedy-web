@@ -16,7 +16,6 @@ export function useImport({ openOnMount = false } = {}) {
     handleClose,
     handleOpen,
     open,
-    openOnMount,
   };
 
   return {
