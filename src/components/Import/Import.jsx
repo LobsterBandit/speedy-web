@@ -5,9 +5,12 @@ import {
   TextField,
 } from "@material-ui/core"
 import { useCallback, useMemo } from "react"
+import { useCharacterStore } from "../../stores/character"
 import { debounce, parseAddonExportString } from "../../utils"
 
 export function Import({ open, handleClose } = {}) {
+  const setCharacterData = useCharacterStore((state) => state.setCharacterData)
+
   const handleChange = useCallback(
     (e) => {
       const importString = e.target.value
@@ -17,13 +20,12 @@ export function Import({ open, handleClose } = {}) {
 
       parseAddonExportString(importString)
         .then((data) => {
-          console.log("Parsed Data", data)
-          // fire off success notification? and close import dialog
+          setCharacterData(data)
           handleClose()
         })
         .catch((error) => console.error(error))
     },
-    [handleClose]
+    [handleClose, setCharacterData]
   )
 
   const debouncedHandleChange = useMemo(
