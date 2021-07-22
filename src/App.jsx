@@ -1,9 +1,9 @@
-import { CssBaseline } from "@material-ui/core";
-import { yellow } from "@material-ui/core/colors";
-import { createTheme, ThemeProvider } from "@material-ui/core/styles";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { ImportProvider } from "./components";
-import { CharacterSelect, Dashboard, Welcome } from "./pages";
+import { CssBaseline } from "@material-ui/core"
+import { yellow } from "@material-ui/core/colors"
+import { createTheme, ThemeProvider } from "@material-ui/core/styles"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
+import { ImportProvider } from "./components"
+import { CharacterSelect, Dashboard, Welcome } from "./pages"
 
 const theme = createTheme({
   palette: {
@@ -13,7 +13,7 @@ const theme = createTheme({
     secondary: yellow,
     type: "dark",
   },
-});
+})
 
 export function App() {
   return (
@@ -35,5 +35,5 @@ export function App() {
         </Router>
       </ImportProvider>
     </ThemeProvider>
-  );
+  )
 }

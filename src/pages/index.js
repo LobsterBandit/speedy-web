@@ -1,3 +1,3 @@
-export * from "./CharacterSelect";
-export * from "./Dashboard";
-export * from "./Welcome";
+export * from "./CharacterSelect"
+export * from "./Dashboard"
+export * from "./Welcome"

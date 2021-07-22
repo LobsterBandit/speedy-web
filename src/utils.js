@@ -1,35 +1,35 @@
-import { unzlib } from "fflate";
+import { unzlib } from "fflate"
 
 export function debounce(func, wait, immediate = false) {
-  let timeout;
+  let timeout
   return (...args) => {
-    const callNow = immediate && !timeout;
-    const next = () => func(...args);
+    const callNow = immediate && !timeout
+    const next = () => func(...args)
 
-    clearTimeout(timeout);
-    timeout = setTimeout(next, wait);
+    clearTimeout(timeout)
+    timeout = setTimeout(next, wait)
 
     if (callNow) {
-      next();
+      next()
     }
-  };
+  }
 }
 
 export function parseAddonExportString(str) {
-  const u8 = base64DecToArr(str);
+  const u8 = base64DecToArr(str)
   return new Promise((resolve, reject) => {
     unzlib(u8, { consume: true }, (error, data) => {
       if (error) {
-        reject(error);
+        reject(error)
       } else {
         if (data) {
-          const s = UTF8ArrToStr(data);
-          const json = JSON.parse(s);
-          resolve(json);
+          const s = UTF8ArrToStr(data)
+          const json = JSON.parse(s)
+          resolve(json)
         }
       }
-    });
-  });
+    })
+  })
 }
 
 // https://developer.mozilla.org/en-US/docs/Glossary/Base64#solution_2_%E2%80%93_rewriting_atob_and_btoa_using_typedarrays_and_utf-8
@@ -44,40 +44,40 @@ function b64ToUint6(nChr) {
     ? 62
     : nChr === 47
     ? 63
-    : 0;
+    : 0
 }
 
 function base64DecToArr(sBase64, nBlocksSize) {
-  var sB64Enc = sBase64.replace(/[^A-Za-z0-9\+\/]/g, ""),
+  var sB64Enc = sBase64.replace(/[^A-Za-z0-9+/]/g, ""),
     nInLen = sB64Enc.length,
     nOutLen = nBlocksSize
       ? Math.ceil(((nInLen * 3 + 1) >> 2) / nBlocksSize) * nBlocksSize
       : (nInLen * 3 + 1) >> 2,
-    taBytes = new Uint8Array(nOutLen);
+    taBytes = new Uint8Array(nOutLen)
 
   for (
     var nMod3, nMod4, nUint24 = 0, nOutIdx = 0, nInIdx = 0;
     nInIdx < nInLen;
     nInIdx++
   ) {
-    nMod4 = nInIdx & 3;
-    nUint24 |= b64ToUint6(sB64Enc.charCodeAt(nInIdx)) << (6 * (3 - nMod4));
+    nMod4 = nInIdx & 3
+    nUint24 |= b64ToUint6(sB64Enc.charCodeAt(nInIdx)) << (6 * (3 - nMod4))
     if (nMod4 === 3 || nInLen - nInIdx === 1) {
       for (nMod3 = 0; nMod3 < 3 && nOutIdx < nOutLen; nMod3++, nOutIdx++) {
-        taBytes[nOutIdx] = (nUint24 >>> ((16 >>> nMod3) & 24)) & 255;
+        taBytes[nOutIdx] = (nUint24 >>> ((16 >>> nMod3) & 24)) & 255
       }
-      nUint24 = 0;
+      nUint24 = 0
     }
   }
 
-  return taBytes;
+  return taBytes
 }
 
 function UTF8ArrToStr(aBytes) {
-  var sView = "";
+  var sView = ""
 
   for (var nPart, nLen = aBytes.length, nIdx = 0; nIdx < nLen; nIdx++) {
-    nPart = aBytes[nIdx];
+    nPart = aBytes[nIdx]
     sView += String.fromCharCode(
       nPart > 251 && nPart < 254 && nIdx + 5 < nLen /* six bytes */
         ? /* (nPart - 252 << 30) may be not so safe in ECMAScript! So...: */
@@ -110,8 +110,8 @@ function UTF8ArrToStr(aBytes) {
         ? ((nPart - 192) << 6) + aBytes[++nIdx] - 128
         : /* nPart < 127 ? */ /* one byte */
           nPart
-    );
+    )
   }
 
-  return sView;
+  return sView
 }

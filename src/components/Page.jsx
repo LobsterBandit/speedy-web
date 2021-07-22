@@ -1,5 +1,5 @@
-import { Box } from "@material-ui/core";
-import { Header } from "./Header";
+import { Box } from "@material-ui/core"
+import { Header } from "./Header"
 
 export function Page({ children, header = <Header brand="Speedy" /> }) {
   return (
@@ -15,5 +15,5 @@ export function Page({ children, header = <Header brand="Speedy" /> }) {
         {children}
       </Box>
     </Box>
-  );
+  )
 }

@@ -1,14 +1,14 @@
-import { AppBar, Box, Toolbar, Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { AppBar, Box, Toolbar, Typography } from "@material-ui/core"
+import { makeStyles } from "@material-ui/core/styles"
 
 const useStyles = makeStyles((theme) => ({
   brand: {
     marginRight: theme.spacing(4),
   },
-}));
+}))
 
 export function Header({ brand, contentLeft, contentRight }) {
-  const classes = useStyles();
+  const classes = useStyles()
 
   return (
     <AppBar className={classes.root} component="header" position="static">
@@ -29,5 +29,5 @@ export function Header({ brand, contentLeft, contentRight }) {
         </Box>
       </Toolbar>
     </AppBar>
-  );
+  )
 }
