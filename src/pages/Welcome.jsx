@@ -1,7 +1,9 @@
 import { Button, Link, Typography } from "@material-ui/core"
 import { makeStyles } from "@material-ui/core/styles"
+import shallow from "zustand/shallow"
 import { Header, Page, useImportContext } from "../components"
 import speedy from "../speedy.svg"
+import { useCharacterStore } from "../stores/character"
 
 const useStyles = makeStyles((theme) => ({
   import: {
@@ -18,6 +20,10 @@ const useStyles = makeStyles((theme) => ({
 export function Welcome() {
   const classes = useStyles()
   const { handleOpen } = useImportContext()
+  const { characters, selected } = useCharacterStore(
+    (state) => ({ characters: state.characters, selected: state.selected }),
+    shallow
+  )
 
   return (
     <Page
@@ -32,6 +38,18 @@ export function Welcome() {
               variant="contained"
             >
               <Typography>Import</Typography>
+            </Button>
+          }
+          contentRight={
+            <Button
+              className={classes.import}
+              color="secondary"
+              onClick={() => {
+                console.log(characters)
+              }}
+              variant="contained"
+            >
+              <Typography>{selected}</Typography>
             </Button>
           }
         />

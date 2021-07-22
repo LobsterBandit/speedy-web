@@ -1,6 +1,7 @@
 import { createNamedStore } from "./middleware"
 
 const initialState = {
+  characterData: [],
   characters: [],
   selected: "ALL",
 }
@@ -10,7 +11,8 @@ export const useCharacterStore = createNamedStore("character-store")((set) => ({
   selectCharacter: (selected) => set({ selected }),
   setCharacterData: (data) =>
     set({
-      characters: Array.from(Object.entries(data), ([k, v]) => ({ [k]: v })),
+      characters: Object.values(data).map(({ Key }) => Key),
+      characterData: Array.from(Object.entries(data), ([k, v]) => ({ [k]: v })),
     }),
   reset: () => set(initialState),
 }))
