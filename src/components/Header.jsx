@@ -1,32 +1,17 @@
-import { AppBar, Box, Toolbar, Typography } from "@material-ui/core"
-import { makeStyles } from "@material-ui/core/styles"
+import { AppBar, Toolbar, Typography } from "@material-ui/core"
+import { styled } from "@material-ui/core/styles"
+import { ImportButton } from "../components"
 
-const useStyles = makeStyles((theme) => ({
-  brand: {
-    marginRight: theme.spacing(4),
-  },
+const Brand = styled(Typography)(({ theme }) => ({
+  marginRight: theme.spacing(4),
 }))
 
-export function Header({ brand, contentLeft, contentRight }) {
-  const classes = useStyles()
-
+export function Header() {
   return (
-    <AppBar className={classes.root} component="header" position="static">
+    <AppBar component="header" position="static">
       <Toolbar>
-        <Typography className={classes.brand} variant="h6">
-          {brand}
-        </Typography>
-        <Box
-          alignItems="center"
-          display="flex"
-          flexDirection="row"
-          flexGrow={1}
-        >
-          {contentLeft}
-        </Box>
-        <Box alignItems="center" display="flex" flexDirection="row">
-          {contentRight}
-        </Box>
+        <Brand variant="h6">Speedy</Brand>
+        <ImportButton />
       </Toolbar>
     </AppBar>
   )

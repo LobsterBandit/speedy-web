@@ -1,9 +1,10 @@
 import { createNamedStore } from "./middleware"
 
 const initialState = {
-  characterData: [],
+  characterData: {},
   characters: [],
-  selected: "ALL",
+  selected: "All",
+  realms: [],
 }
 
 export const useCharacterStore = createNamedStore("character-store")((set) => ({
@@ -11,8 +12,22 @@ export const useCharacterStore = createNamedStore("character-store")((set) => ({
   selectCharacter: (selected) => set({ selected }),
   setCharacterData: (data) =>
     set({
-      characters: Object.values(data).map(({ Key }) => Key),
-      characterData: Array.from(Object.entries(data), ([k, v]) => ({ [k]: v })),
+      // list of unique characters in data
+      characters: Object.values(data).map(({ Key, Name, Realm }) => ({
+        Key,
+        Name,
+        Realm,
+      })),
+      characterData: data,
+      // list of unique realms in data
+      realms: Object.values(data)
+        .reduce((acc, { Realm }) => {
+          if (!acc.includes(Realm)) {
+            acc.push(Realm)
+          }
+          return acc
+        }, [])
+        .sort(),
     }),
   reset: () => set(initialState),
 }))
