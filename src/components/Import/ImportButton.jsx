@@ -1,11 +1,16 @@
-import { Button, Typography } from "@material-ui/core"
 import { useImportContext } from "./ImportContext"
+import { TextButton } from "../TextButton"
 
-export function ImportButton() {
+export function ImportButton({
+  children = "Import",
+  color = "secondary",
+  variant = "contained",
+  ...props
+} = {}) {
   const { handleOpen } = useImportContext()
   return (
-    <Button color="secondary" onClick={handleOpen} variant="contained">
-      <Typography>Import</Typography>
-    </Button>
+    <TextButton color={color} onClick={handleOpen} variant={variant} {...props}>
+      {children}
+    </TextButton>
   )
 }
