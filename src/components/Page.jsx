@@ -1,7 +1,7 @@
 import { Box } from "@material-ui/core"
 import { Header } from "./Header"
 
-export function Page({ children, header = <Header brand="Speedy" /> }) {
+export function Page({ children, header = <Header /> }) {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
       {header}
