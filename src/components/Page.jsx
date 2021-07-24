@@ -10,7 +10,7 @@ export function Page({ children }) {
         display="flex"
         flexDirection="column"
         flexGrow={99}
-        padding={2}
+        padding={3}
       >
         {children}
       </Box>
