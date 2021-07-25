@@ -1,4 +1,5 @@
 import { Box } from "@material-ui/core"
+import shallow from "zustand/shallow"
 import { CharacterDataTable } from "./CharacterDataTable"
 import { CharacterSelect } from "./CharacterSelect"
 import { TimePlayedCumulative, TimePlayedPerLevel } from "./charts"
@@ -10,7 +11,8 @@ export function Dashboard() {
       characters: state.characters,
       selected: state.selected,
       selectCharacter: state.selectCharacter,
-    })
+    }),
+    shallow
   )
 
   return (
