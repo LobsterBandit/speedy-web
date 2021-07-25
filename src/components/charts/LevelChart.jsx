@@ -1,3 +1,4 @@
+import { Box } from "@material-ui/core"
 import { memo, useCallback, useMemo } from "react"
 import { Bar, Line } from "react-chartjs-2"
 import shallow from "zustand/shallow"
@@ -7,6 +8,8 @@ import { getColor, levels, toRGBString, transparentize } from "./utils"
 const getDefaultOptions = (title) => ({
   parsing: false,
   normalized: true,
+  responsive: true,
+  maintainAspectRatio: false,
   plugins: {
     title: {
       display: true,
@@ -83,5 +86,9 @@ export const LevelChart = memo(function LevelChart({
     [type]
   )
 
-  return <Chart data={chartData} options={chartOptions} />
+  return (
+    <Box alignSelf="center" position="relative" height="35vh" width="90%">
+      <Chart data={chartData} options={chartOptions} />
+    </Box>
+  )
 })
