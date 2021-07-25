@@ -1,7 +1,7 @@
 import { Box } from "@material-ui/core"
 import { CharacterDataTable } from "./CharacterDataTable"
 import { CharacterSelect } from "./CharacterSelect"
-import { TimePlayedPerLevel } from "./TimePlayedPerLevel"
+import { TimePlayedPerLevel } from "./charts"
 import { useCharacterStore } from "../stores/character"
 
 export function Dashboard() {
@@ -14,14 +14,16 @@ export function Dashboard() {
   )
 
   return (
-    <Box display="flex" flexDirection="column" gridGap={24}>
+    <Box display="flex" flexDirection="column" flexGrow={1} gridGap={24}>
       <CharacterSelect
         characters={characters}
         onCharacterClick={selectCharacter}
         selected={selected}
       />
-      <TimePlayedPerLevel selected={selected} />
-      <CharacterDataTable selected={selected} />
+      <TimePlayedPerLevel />
+      <Box flexGrow={1}>
+        <CharacterDataTable />
+      </Box>
     </Box>
   )
 }
