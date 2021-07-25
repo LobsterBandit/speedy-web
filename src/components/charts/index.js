@@ -1,1 +1,1 @@
-export * from "./TimePlayedPerLevel"
+export * from "./TimePlayedCumulative"
