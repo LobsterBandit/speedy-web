@@ -1,7 +1,7 @@
 import { Box } from "@material-ui/core"
 import { CharacterDataTable } from "./CharacterDataTable"
 import { CharacterSelect } from "./CharacterSelect"
-import { TimePlayedCumulative } from "./charts"
+import { TimePlayedCumulative, TimePlayedPerLevel } from "./charts"
 import { useCharacterStore } from "../stores/character"
 
 export function Dashboard() {
@@ -21,6 +21,7 @@ export function Dashboard() {
         selected={selected}
       />
       <TimePlayedCumulative />
+      <TimePlayedPerLevel type="bar" />
       <Box flexGrow={1}>
         <CharacterDataTable />
       </Box>

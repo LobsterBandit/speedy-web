@@ -1,5 +1,5 @@
 import { useMemo } from "react"
-import { Line } from "react-chartjs-2"
+import { Bar, Line } from "react-chartjs-2"
 import { allSelected, useCharacterStore } from "../../stores/character"
 import { getColor, levels, toRGBString, transparentize } from "./utils"
 
@@ -28,8 +28,7 @@ out:
   ]
 }
 */
-function formatDataForChart(data, selected) {
-  const showAll = selected === allSelected.Key
+function formatDataForChart(data, showAll) {
   const seenLevels = {}
   const datasets = []
 
@@ -39,14 +38,21 @@ function formatDataForChart(data, selected) {
       label: char.Name,
       backgroundColor: transparentize(color),
       borderColor: toRGBString(color),
-      data: Object.entries(char.LevelTimes).map(([level, time]) => {
-        seenLevels[level] = (seenLevels[level] ?? 0) + 1
-        return {
-          x: level,
-          // time.Played is in seconds
-          y: time.Played / 60,
-        }
-      }),
+      fill: true,
+      data: showAll
+        ? levels.map((level) => ({
+            x: level,
+            y: char.LevelTimes[level]
+              ? char.LevelTimes[level].Played / 60
+              : null,
+          }))
+        : Object.entries(char.LevelTimes).map(([level, time]) => {
+            seenLevels[level] = (seenLevels[level] ?? 0) + 1
+            return {
+              x: level,
+              y: time.Played / 60,
+            }
+          }),
     })
   }
 
@@ -56,34 +62,44 @@ function formatDataForChart(data, selected) {
   }
 }
 
-function selectCurrentCharacterData(state) {
-  return state.selected.Key === allSelected.Key
-    ? { data: state.characterData, selected: state.selected.Key }
-    : {
-        data: { [state.selected.Key]: state.characterData[state.selected.Key] },
-        selected: state.selected.Key,
-      }
+function selectChartData(state) {
+  const key = state.selected.Key
+  const showAll = key === allSelected.Key
+  return {
+    showAll,
+    chartData: formatDataForChart(
+      showAll ? state.characterData : { [key]: state.characterData[key] },
+      showAll
+    ),
+  }
 }
 
-const options = {
+const defaultOptions = {
   parsing: false,
   normalized: true,
+  plugins: {
+    title: {
+      display: true,
+      text: "Cumulative Time Played At Level",
+    },
+  },
 }
 
-export function TimePlayedCumulative() {
-  const { data, selected } = useCharacterStore(selectCurrentCharacterData)
-  const chartData = useMemo(
-    () => formatDataForChart(data, selected),
-    [data, selected]
-  )
+export function TimePlayedCumulative({ type = "line" } = {}) {
+  const { chartData, showAll } = useCharacterStore(selectChartData)
 
   const chartOptions = useMemo(
     () =>
-      selected === allSelected.Key
-        ? { ...options, scales: { x: { type: "linear", min: 1, max: 70 } } }
-        : options,
-    [selected]
+      showAll
+        ? {
+            ...defaultOptions,
+            scales: { x: { type: "linear", min: 1, max: 70 } },
+          }
+        : defaultOptions,
+    [showAll]
   )
 
-  return <Line data={chartData} options={chartOptions} />
+  const Chart = type === "line" ? Line : type === "bar" ? Bar : Line
+
+  return <Chart data={chartData} options={chartOptions} />
 }
