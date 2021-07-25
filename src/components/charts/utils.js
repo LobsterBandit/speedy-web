@@ -1,4 +1,6 @@
-export function toStringRGBA(rgb) {
+export const levels = Array.from({ length: 70 }, (_, i) => `${i + 1}`)
+
+export function toRGBString(rgb) {
   return rgb.a
     ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${rgb.a})`
     : `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
@@ -6,10 +8,10 @@ export function toStringRGBA(rgb) {
 
 export function transparentize(rgb, opacity = 0.5) {
   rgb.a = 1 - opacity
-  return toStringRGBA(rgb)
+  return toRGBString(rgb)
 }
 
-export const COLORS = {
+export const RGB = {
   red: { r: 255, g: 99, b: 132 },
   orange: { r: 255, g: 159, b: 64 },
   yellow: { r: 255, g: 205, b: 86 },
@@ -19,20 +21,12 @@ export const COLORS = {
   grey: { r: 201, g: 203, b: 207 },
 }
 
-const NAMED_COLORS = [
-  COLORS.red,
-  COLORS.orange,
-  COLORS.yellow,
-  COLORS.green,
-  COLORS.blue,
-  COLORS.purple,
-  COLORS.grey,
-]
+const COLORS_RGB = Object.values(RGB)
 
 export function getColor(index) {
   const i =
     index != null
-      ? index % NAMED_COLORS.length
-      : Math.floor(Math.random() * NAMED_COLORS.length)
-  return NAMED_COLORS[i]
+      ? index % COLORS_RGB.length
+      : Math.floor(Math.random() * COLORS_RGB.length)
+  return COLORS_RGB[i]
 }

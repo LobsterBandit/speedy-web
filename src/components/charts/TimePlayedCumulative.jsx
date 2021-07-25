@@ -1,9 +1,8 @@
 import { useMemo } from "react"
 import { Line } from "react-chartjs-2"
 import { allSelected, useCharacterStore } from "../../stores/character"
-import { getColor, toStringRGBA, transparentize } from "./utils"
+import { getColor, levels, toRGBString, transparentize } from "./utils"
 
-const levels = Array.from({ length: 70 }, (_, i) => `${i + 1}`)
 /*
 in:
 {
@@ -34,13 +33,12 @@ function formatDataForChart(data, selected) {
   const seenLevels = {}
   const datasets = []
 
-  for (const [key, char] of Object.entries(data)) {
-    console.log(key, char)
+  for (const [, char] of Object.entries(data)) {
     const color = getColor(showAll ? datasets.length : null)
     datasets.push({
       label: char.Name,
       backgroundColor: transparentize(color),
-      borderColor: toStringRGBA(color),
+      borderColor: toRGBString(color),
       data: Object.entries(char.LevelTimes).map(([level, time]) => {
         seenLevels[level] = (seenLevels[level] ?? 0) + 1
         return {
@@ -78,7 +76,6 @@ export function TimePlayedCumulative() {
     () => formatDataForChart(data, selected),
     [data, selected]
   )
-  console.log(chartData)
 
   const chartOptions = useMemo(
     () =>
