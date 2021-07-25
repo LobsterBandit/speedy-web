@@ -1,7 +1,17 @@
 import { Box, Chip } from "@material-ui/core"
-import { allSelected } from "../stores/character"
+import shallow from "zustand/shallow"
+import { allSelected, useCharacterStore } from "../stores/character"
 
-export function CharacterSelect({ characters, onCharacterClick, selected }) {
+export function CharacterSelect() {
+  const { characters, selected, selectCharacter } = useCharacterStore(
+    (state) => ({
+      characters: state.characters,
+      selected: state.selected,
+      selectCharacter: state.selectCharacter,
+    }),
+    shallow
+  )
+
   return (
     <Box display="flex" component="ul" flexWrap="wrap" gridGap={12} m={0} p={0}>
       <Chip
@@ -9,7 +19,7 @@ export function CharacterSelect({ characters, onCharacterClick, selected }) {
         component="li"
         key={allSelected.Key}
         label={allSelected.Name}
-        onClick={() => onCharacterClick(allSelected)}
+        onClick={() => selectCharacter(allSelected)}
       />
       {characters
         .sort((a, b) => (a.Name < b.Name ? -1 : 1))
@@ -19,7 +29,7 @@ export function CharacterSelect({ characters, onCharacterClick, selected }) {
             component="li"
             key={c.Key}
             label={`${c.Name} - ${c.Realm}`}
-            onClick={() => onCharacterClick(c)}
+            onClick={() => selectCharacter(c)}
           />
         ))}
     </Box>

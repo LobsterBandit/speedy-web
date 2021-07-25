@@ -1,27 +1,12 @@
 import { Box } from "@material-ui/core"
-import shallow from "zustand/shallow"
 import { CharacterDataTable } from "./CharacterDataTable"
 import { CharacterSelect } from "./CharacterSelect"
 import { TimePlayedCumulative, TimePlayedPerLevel } from "./charts"
-import { useCharacterStore } from "../stores/character"
 
 export function Dashboard() {
-  const { characters, selected, selectCharacter } = useCharacterStore(
-    (state) => ({
-      characters: state.characters,
-      selected: state.selected,
-      selectCharacter: state.selectCharacter,
-    }),
-    shallow
-  )
-
   return (
     <Box display="flex" flexDirection="column" flexGrow={1} gridGap={24}>
-      <CharacterSelect
-        characters={characters}
-        onCharacterClick={selectCharacter}
-        selected={selected}
-      />
+      <CharacterSelect />
       <TimePlayedCumulative />
       <TimePlayedPerLevel type="bar" />
       <Box flexGrow={1}>
