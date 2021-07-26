@@ -1,6 +1,7 @@
 import { AppBar, Box, Toolbar, Typography } from "@material-ui/core"
 import { styled } from "@material-ui/core/styles"
-import { ImportButton, ResetButton } from "../components"
+import { ImportButton } from "./Import"
+import { ResetButton } from "./ResetButton"
 import { useCharacterStore } from "../stores/character"
 
 const SpeedyToolbar = styled(Toolbar)(({ theme }) => ({

@@ -1,16 +1,16 @@
 import { Box } from "@material-ui/core"
 import { Header } from "./Header"
 
-export function Page({ children, header = <Header /> }) {
+export function Page({ children }) {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
-      {header}
+      <Header />
       <Box
         component="main"
         display="flex"
         flexDirection="column"
         flexGrow={99}
-        padding={2}
+        padding={3}
       >
         {children}
       </Box>
