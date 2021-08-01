@@ -6,10 +6,13 @@ import { rollupPluginBundleStats } from "./src/rollup-plugin-bundle-stats"
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    reactRefresh(),
-    reactJsx(),
-    rollupPluginBundleStats({ limit: 5 }),
-    visualizer({ filename: "stats/index.html" }),
-  ],
+  plugins: [reactRefresh(), reactJsx()],
+  build: {
+    rollupOptions: {
+      plugins: [
+        rollupPluginBundleStats({ limit: 10 }),
+        visualizer({ filename: "stats/index.html" }),
+      ],
+    },
+  },
 })
