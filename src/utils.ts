@@ -1,7 +1,7 @@
 import { unzlib } from "fflate"
 
-export function debounce(func, wait, immediate = false) {
-  let timeout
+export function debounce(func: Function, wait: number, immediate = false) {
+  let timeout: NodeJS.Timeout
   return (...args) => {
     const callNow = immediate && !timeout
     const next = () => func(...args)
@@ -33,7 +33,7 @@ export function parseAddonExportString(str) {
 }
 
 // https://developer.mozilla.org/en-US/docs/Glossary/Base64#solution_2_%E2%80%93_rewriting_atob_and_btoa_using_typedarrays_and_utf-8
-function b64ToUint6(nChr) {
+function b64ToUint6(nChr: number) {
   return nChr > 64 && nChr < 91
     ? nChr - 65
     : nChr > 96 && nChr < 123
@@ -47,16 +47,14 @@ function b64ToUint6(nChr) {
     : 0
 }
 
-function base64DecToArr(sBase64, nBlocksSize) {
-  var sB64Enc = sBase64.replace(/[^A-Za-z0-9+/]/g, ""),
+function base64DecToArr(sBase64) {
+  const sB64Enc = sBase64.replace(/[^A-Za-z0-9+/]/g, ""),
     nInLen = sB64Enc.length,
-    nOutLen = nBlocksSize
-      ? Math.ceil(((nInLen * 3 + 1) >> 2) / nBlocksSize) * nBlocksSize
-      : (nInLen * 3 + 1) >> 2,
+    nOutLen = (nInLen * 3 + 1) >> 2,
     taBytes = new Uint8Array(nOutLen)
 
   for (
-    var nMod3, nMod4, nUint24 = 0, nOutIdx = 0, nInIdx = 0;
+    let nMod3: number, nMod4: number, nUint24 = 0, nOutIdx = 0, nInIdx = 0;
     nInIdx < nInLen;
     nInIdx++
   ) {
