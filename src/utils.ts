@@ -1,10 +1,14 @@
 import { unzlib } from "fflate"
 
-export function debounce(func: Function, wait: number, immediate = false) {
+export function debounce<T, R>(
+  func: (args: T) => R,
+  wait: number,
+  immediate = false
+) {
   let timeout: NodeJS.Timeout
-  return (...args) => {
+  return (args: T) => {
     const callNow = immediate && !timeout
-    const next = () => func(...args)
+    const next = () => func(args)
 
     clearTimeout(timeout)
     timeout = setTimeout(next, wait)
@@ -15,7 +19,7 @@ export function debounce(func: Function, wait: number, immediate = false) {
   }
 }
 
-export function parseAddonExportString(str) {
+export function parseAddonExportString(str: string) {
   const u8 = base64DecToArr(str)
   return new Promise((resolve, reject) => {
     unzlib(u8, { consume: true }, (error, data) => {
@@ -24,7 +28,7 @@ export function parseAddonExportString(str) {
       } else {
         if (data) {
           const s = UTF8ArrToStr(data)
-          const json = JSON.parse(s)
+          const json: unknown = JSON.parse(s)
           resolve(json)
         }
       }
@@ -47,7 +51,7 @@ function b64ToUint6(nChr: number) {
     : 0
 }
 
-function base64DecToArr(sBase64) {
+function base64DecToArr(sBase64: string) {
   const sB64Enc = sBase64.replace(/[^A-Za-z0-9+/]/g, ""),
     nInLen = sB64Enc.length,
     nOutLen = (nInLen * 3 + 1) >> 2,
@@ -71,10 +75,10 @@ function base64DecToArr(sBase64) {
   return taBytes
 }
 
-function UTF8ArrToStr(aBytes) {
-  var sView = ""
+function UTF8ArrToStr(aBytes: Uint8Array) {
+  let sView = ""
 
-  for (var nPart, nLen = aBytes.length, nIdx = 0; nIdx < nLen; nIdx++) {
+  for (let nPart, nLen = aBytes.length, nIdx = 0; nIdx < nLen; nIdx++) {
     nPart = aBytes[nIdx]
     sView += String.fromCharCode(
       nPart > 251 && nPart < 254 && nIdx + 5 < nLen /* six bytes */
