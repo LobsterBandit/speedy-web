@@ -1,14 +1,24 @@
 import { unzlib } from "fflate"
 
-export function debounce<T, R>(
-  func: (args: T) => R,
+interface FuncWithVarArgs {
+  (...args: unknown[]): void
+}
+
+interface DebouncedFunc<F extends FuncWithVarArgs> {
+  // (this: ThisParameterType<F>, ...args: Parameters<F>): ReturnType<F>
+  (...args: Parameters<F>): ReturnType<F>
+  cancel: () => void
+}
+
+export function debounce<F extends FuncWithVarArgs>(
+  func: F,
   wait: number,
   immediate = false
-) {
+): DebouncedFunc<F> {
   let timeout: NodeJS.Timeout
-  return (args: T) => {
+  const debounced = (...args: Parameters<F>) => {
     const callNow = immediate && !timeout
-    const next = () => func(args)
+    const next = () => func(...args)
 
     clearTimeout(timeout)
     timeout = setTimeout(next, wait)
@@ -16,7 +26,15 @@ export function debounce<T, R>(
     if (callNow) {
       next()
     }
+
+    return void 0
   }
+
+  debounced.cancel = () => {
+    clearTimeout(timeout)
+  }
+
+  return debounced
 }
 
 export function parseAddonExportString(str: string) {
