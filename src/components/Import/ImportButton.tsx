@@ -2,8 +2,7 @@ import { ButtonProps } from "@material-ui/core"
 import { useImportContext } from "./ImportContext"
 import { TextButton } from "../TextButton"
 
-type ImportButtonProps = Pick<ButtonProps, "children" | "color" | "variant"> &
-  ButtonProps
+type ImportButtonProps = ButtonProps
 
 export function ImportButton({
   children = "Import",

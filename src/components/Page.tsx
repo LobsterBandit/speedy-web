@@ -1,7 +1,11 @@
 import { Box } from "@material-ui/core"
 import { Header } from "./Header"
 
-export function Page({ children }) {
+interface PageProps {
+  children: React.ReactNode
+}
+
+export function Page({ children }: PageProps) {
   return (
     <Box display="flex" flexDirection="column" minHeight="100vh">
       <Header />
