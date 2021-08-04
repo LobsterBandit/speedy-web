@@ -1,6 +1,7 @@
-import { LevelChart } from "./LevelChart"
+import { ChartDataFormatter, LevelChart } from "./LevelChart"
+import type { CharacterLevelTimes } from "../../stores/character"
 
-function calculateTimePlayedPerLevel(levelData) {
+function calculateTimePlayedPerLevel(levelData: CharacterLevelTimes) {
   return Object.keys(levelData)
     .sort((a, b) => parseInt(a) - parseInt(b))
     .map((level) => {
@@ -17,13 +18,11 @@ function calculateTimePlayedPerLevel(levelData) {
     })
 }
 
-function formatChartData(char) {
-  return calculateTimePlayedPerLevel(char.LevelTimes).map((t) => {
-    return {
-      x: t.level,
-      y: t.played,
-    }
-  })
+const formatChartData: ChartDataFormatter = (char) => {
+  return calculateTimePlayedPerLevel(char.LevelTimes).map((t) => ({
+    x: t.level,
+    y: t.played,
+  }))
 }
 
 export function TimePlayedPerLevel() {

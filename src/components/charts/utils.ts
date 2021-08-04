@@ -1,17 +1,24 @@
 export const levels = Array.from({ length: 70 }, (_, i) => `${i + 1}`)
 
-export function toRGBString(rgb) {
+interface RGB {
+  r: number
+  g: number
+  b: number
+  a?: number
+}
+
+export function toRGBString(rgb: RGB) {
   return rgb.a
     ? `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${rgb.a})`
     : `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`
 }
 
-export function transparentize(rgb, opacity = 0.5) {
+export function transparentize(rgb: RGB, opacity = 0.5) {
   rgb.a = 1 - opacity
   return toRGBString(rgb)
 }
 
-export const RGB = {
+export const RGB: Record<string, RGB> = {
   red: { r: 255, g: 99, b: 132 },
   orange: { r: 255, g: 159, b: 64 },
   yellow: { r: 255, g: 205, b: 86 },
@@ -23,7 +30,7 @@ export const RGB = {
 
 const COLORS_RGB = Object.values(RGB)
 
-export function getColor(index) {
+export function getColor(index?: number) {
   const i =
     index != null
       ? index % COLORS_RGB.length
