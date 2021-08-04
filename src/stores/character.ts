@@ -10,11 +10,16 @@ interface Character {
 
 type CharacterSelection = Pick<Character, "Key" | "Name" | "Realm">
 
+export type CharacterData = Record<CharacterKey, Character>
+
 interface CharacterStore {
-  characterData: Record<CharacterKey, CharacterSelection>
+  characterData: CharacterData
   characters: CharacterSelection[]
   selected: CharacterSelection
   realms: string[]
+  selectCharacter: (selected: Character) => void
+  setCharacterData: (data: CharacterData) => void
+  reset: () => void
 }
 
 export const SELECTED_ALL: CharacterSelection = {
@@ -28,6 +33,9 @@ const initialState: CharacterStore = {
   characters: [],
   selected: SELECTED_ALL,
   realms: [],
+  selectCharacter: () => void 0,
+  setCharacterData: () => void 0,
+  reset: () => void 0,
 }
 
 // const createCharacterStore = createNamedStore("character-store")
@@ -35,8 +43,8 @@ export const useCharacterStore = createNamedStore(
   "character-store"
 )<CharacterStore>((set) => ({
   ...initialState,
-  selectCharacter: (selected: Character) => set({ selected }),
-  setCharacterData: (data: Record<CharacterKey, CharacterSelection>) => {
+  selectCharacter: (selected) => set({ selected }),
+  setCharacterData: (data) => {
     const values = Object.values(data)
     return set({
       // list of unique characters in data

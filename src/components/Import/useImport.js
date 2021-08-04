@@ -14,7 +14,6 @@ export function useImport({ openOnMount = false } = {}) {
 
   const importProps = {
     handleClose,
-    handleOpen,
     open,
   }
 

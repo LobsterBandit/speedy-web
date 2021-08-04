@@ -1,10 +1,26 @@
-import { createContext, useContext, useState } from "react"
-import { Import } from "./Import"
+import {
+  Dispatch,
+  createContext,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react"
+import { Import, ImportProps } from "./Import"
 import { useImport } from "./useImport"
 
-const noop = () => {}
-const nullComp = () => <></>
-const initialValue = {
+interface ImportContextValue {
+  handleClose: () => void
+  handleOpen: () => void
+  open: boolean
+  openOnMount: boolean
+  setOpenOnMount: Dispatch<SetStateAction<boolean>>
+  Import: typeof Import
+  importProps: ImportProps
+}
+
+const noop = () => void 0
+const nullComp = () => null
+const initialValue: ImportContextValue = {
   handleClose: noop,
   handleOpen: noop,
   open: false,
@@ -13,7 +29,6 @@ const initialValue = {
   Import: nullComp,
   importProps: {
     handleClose: noop,
-    handleOpen: noop,
     open: false,
   },
 }
