@@ -1,8 +1,22 @@
 import { unzlib } from "fflate"
 
-export function debounce(func, wait, immediate = false) {
-  let timeout
-  return (...args) => {
+interface FuncWithVarArgs {
+  (...args: unknown[]): void
+}
+
+interface DebouncedFunc<F extends FuncWithVarArgs> {
+  // (this: ThisParameterType<F>, ...args: Parameters<F>): ReturnType<F>
+  (...args: Parameters<F>): ReturnType<F>
+  cancel: () => void
+}
+
+export function debounce<F extends FuncWithVarArgs>(
+  func: F,
+  wait: number,
+  immediate = false
+): DebouncedFunc<F> {
+  let timeout: NodeJS.Timeout
+  const debounced = (...args: Parameters<F>) => {
     const callNow = immediate && !timeout
     const next = () => func(...args)
 
@@ -12,10 +26,18 @@ export function debounce(func, wait, immediate = false) {
     if (callNow) {
       next()
     }
+
+    return void 0
   }
+
+  debounced.cancel = () => {
+    clearTimeout(timeout)
+  }
+
+  return debounced
 }
 
-export function parseAddonExportString(str) {
+export function parseAddonExportString(str: string) {
   const u8 = base64DecToArr(str)
   return new Promise((resolve, reject) => {
     unzlib(u8, { consume: true }, (error, data) => {
@@ -24,7 +46,7 @@ export function parseAddonExportString(str) {
       } else {
         if (data) {
           const s = UTF8ArrToStr(data)
-          const json = JSON.parse(s)
+          const json: unknown = JSON.parse(s)
           resolve(json)
         }
       }
@@ -33,7 +55,7 @@ export function parseAddonExportString(str) {
 }
 
 // https://developer.mozilla.org/en-US/docs/Glossary/Base64#solution_2_%E2%80%93_rewriting_atob_and_btoa_using_typedarrays_and_utf-8
-function b64ToUint6(nChr) {
+function b64ToUint6(nChr: number) {
   return nChr > 64 && nChr < 91
     ? nChr - 65
     : nChr > 96 && nChr < 123
@@ -47,16 +69,14 @@ function b64ToUint6(nChr) {
     : 0
 }
 
-function base64DecToArr(sBase64, nBlocksSize) {
-  var sB64Enc = sBase64.replace(/[^A-Za-z0-9+/]/g, ""),
+function base64DecToArr(sBase64: string) {
+  const sB64Enc = sBase64.replace(/[^A-Za-z0-9+/]/g, ""),
     nInLen = sB64Enc.length,
-    nOutLen = nBlocksSize
-      ? Math.ceil(((nInLen * 3 + 1) >> 2) / nBlocksSize) * nBlocksSize
-      : (nInLen * 3 + 1) >> 2,
+    nOutLen = (nInLen * 3 + 1) >> 2,
     taBytes = new Uint8Array(nOutLen)
 
   for (
-    var nMod3, nMod4, nUint24 = 0, nOutIdx = 0, nInIdx = 0;
+    let nMod3: number, nMod4: number, nUint24 = 0, nOutIdx = 0, nInIdx = 0;
     nInIdx < nInLen;
     nInIdx++
   ) {
@@ -73,10 +93,10 @@ function base64DecToArr(sBase64, nBlocksSize) {
   return taBytes
 }
 
-function UTF8ArrToStr(aBytes) {
-  var sView = ""
+function UTF8ArrToStr(aBytes: Uint8Array) {
+  let sView = ""
 
-  for (var nPart, nLen = aBytes.length, nIdx = 0; nIdx < nLen; nIdx++) {
+  for (let nPart, nLen = aBytes.length, nIdx = 0; nIdx < nLen; nIdx++) {
     nPart = aBytes[nIdx]
     sView += String.fromCharCode(
       nPart > 251 && nPart < 254 && nIdx + 5 < nLen /* six bytes */

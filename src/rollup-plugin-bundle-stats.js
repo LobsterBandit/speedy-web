@@ -1,4 +1,3 @@
-/*global Buffer, process*/
 import zlib from "zlib"
 
 const border = `${Array(30).join("=")}\n`
@@ -9,11 +8,11 @@ function formatBytes(bytes) {
   const k = 1000
   const dm = 3
   const i = Math.floor(Math.log(bytes) / Math.log(k))
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + byteSizes[i]
+  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${byteSizes[i]}`
 }
 
 function percentChange(sizeNew = 0, sizeOld = 0) {
-  const percent = Math.max(((1 - sizeNew / sizeOld) * 100).toFixed(2), 0)
+  const percent = Math.max(+((1 - sizeNew / sizeOld) * 100).toFixed(2), 0)
   return Number.isNaN(percent) ? 0 : percent
 }
 

@@ -8,7 +8,7 @@ export function Dashboard() {
     <Box display="flex" flexDirection="column" flexGrow={1} gridGap={24}>
       <CharacterSelect />
       <TimePlayedCumulative />
-      <TimePlayedPerLevel type="bar" />
+      <TimePlayedPerLevel />
       <CharacterDataTree />
     </Box>
   )

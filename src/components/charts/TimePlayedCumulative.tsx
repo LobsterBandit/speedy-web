@@ -1,7 +1,7 @@
-import { LevelChart } from "./LevelChart"
+import { ChartDataFormatter, LevelChart } from "./LevelChart"
 import { levels } from "./utils"
 
-function formatChartData(char, showAll) {
+const formatChartData: ChartDataFormatter = (char, showAll) => {
   return showAll
     ? levels.map((level) => ({
         x: level,

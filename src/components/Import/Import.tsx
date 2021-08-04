@@ -4,22 +4,27 @@ import {
   DialogTitle,
   TextField,
 } from "@material-ui/core"
-import { useCallback, useMemo } from "react"
-import { useCharacterStore } from "../../stores/character"
+import { ChangeEvent, useCallback, useMemo } from "react"
+import { CharacterData, useCharacterStore } from "../../stores/character"
 import { debounce, parseAddonExportString } from "../../utils"
 
-export function Import({ open, handleClose } = {}) {
+export interface ImportProps {
+  open: boolean
+  handleClose: () => void
+}
+
+export function Import({ open, handleClose }: ImportProps) {
   const setCharacterData = useCharacterStore((state) => state.setCharacterData)
 
   const handleChange = useCallback(
-    (e) => {
+    (e: ChangeEvent<HTMLInputElement>) => {
       const importString = e.target.value
       if (!importString) {
         return
       }
 
       parseAddonExportString(importString)
-        .then((data) => {
+        .then((data: CharacterData) => {
           setCharacterData(data)
           handleClose()
         })
