@@ -2,22 +2,38 @@ import { createNamedStore } from "./middleware"
 
 type CharacterKey = string
 
-interface Character {
+export interface CharacterLevelTimes {
+  [level: string]: {
+    Played: number
+    LastUpdated: number
+  }
+}
+
+export interface Character {
   Key: CharacterKey
   Name: string
   Realm: string
+  Class: string
+  Race: string
+  Gender: string
+  Level: number
+  XP: number
+  PlayedTotal: number
+  PlayedLevel: number
+  LastSeen: number
+  LevelTimes: CharacterLevelTimes
 }
 
 type CharacterSelection = Pick<Character, "Key" | "Name" | "Realm">
 
 export type CharacterData = Record<CharacterKey, Character>
 
-interface CharacterStore {
+export interface CharacterStore {
   characterData: CharacterData
   characters: CharacterSelection[]
   selected: CharacterSelection
   realms: string[]
-  selectCharacter: (selected: Character) => void
+  selectCharacter: (selected: CharacterSelection) => void
   setCharacterData: (data: CharacterData) => void
   reset: () => void
 }
