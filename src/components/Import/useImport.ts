@@ -1,7 +1,11 @@
 import { useCallback, useState } from "react"
 import { Import } from "./Import"
 
-export function useImport({ openOnMount = false } = {}) {
+interface UseImportOptions {
+  openOnMount?: boolean
+}
+
+export function useImport({ openOnMount = false }: UseImportOptions = {}) {
   const [open, setOpen] = useState(openOnMount)
 
   const handleClose = useCallback(() => {
